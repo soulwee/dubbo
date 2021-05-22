@@ -24,3 +24,15 @@ dubbo-monitor-simple简单的监控中心
 所有服务配置连接监控中心，进行监控统计，监控服务调用信息   
 ![监控中心](./img/monitor.png "监控中心")
 
+整合springboot
+配置都可以转移到properties中了，依赖也全整合到com.alibaba.boot.dubbo-spring-boot-starter
+新增了两个注解用来替代之前的配置，@Service、@Reference
+@Service：用在provider中暴露服务。
+@Reference：在customer中引用暴露的服务。
+
+其实和之前的差不多
+![监控中心](./img/admin.png "监控中心")
+加上之前的监控中心变成了3个应用
+![监控中心](./img/admin2.png "监控中心")
+消费者调用接口
+![消费者](./img/controller.png "消费者")
