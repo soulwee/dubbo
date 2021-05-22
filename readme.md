@@ -14,3 +14,5 @@
 ![zookeeper](./img/zookeeper.png "zookeeper")
 
 
+启动消费者订单服务，调用接口成功
+![zookeeper](./img/zk1.png "zookeeper")
