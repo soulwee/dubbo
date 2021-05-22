@@ -16,4 +16,7 @@
     <!-- 指定需要暴露的服务 ref指向服务真正的实现对象-->
     <dubbo:service interface="com.atguigu.gmall.service.UserService" ref="userServiceImpl" />
     <bean id="userServiceImpl" class="com.atguigu.gmall.service.impl.UserServiceImpl"/>
+    <!--  监控中心协议，如果为protocol="registry"，表示从注册中心发现监控中心地址，否则address直连监控中心 -->
+    <dubbo:monitor  protocol="registry"></dubbo:monitor>
+    <!-- <dubbo:monitor address="127.0.0.1:7001"/>-->
 </beans>

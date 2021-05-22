@@ -11,4 +11,6 @@
     <dubbo:registry address="zookeeper://127.0.0.1:2181" />
     <!-- 声明需要调用的远程服务的接口：生成远程服务代理，可以和本地bean一样使用demoService -->
     <dubbo:reference id="userService" interface="com.atguigu.gmall.service.UserService"></dubbo:reference>
+    <!--  监控中心协议，如果为protocol="registry"，表示从注册中心发现监控中心地址，否则直连监控中心 -->
+    <dubbo:monitor  protocol="registry"></dubbo:monitor>
 </beans>
