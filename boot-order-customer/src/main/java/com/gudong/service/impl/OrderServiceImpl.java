@@ -21,7 +21,8 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-	@Reference(url = "127.0.0.1:20882")
+	//@Reference(url = "127.0.0.1:20882") //测试负载均衡，不能用直连
+	@Reference(loadbalance = "roundrobin") //负载均衡 轮询
 	UserService userService;
 
 	@Override

@@ -8,6 +8,7 @@ import com.atguigu.gmall.bean.UserAddress;
 import com.atguigu.gmall.service.UserService;
 import org.springframework.stereotype.Component;
 
+//权重设置 @Service(weight = 2)，也可以在admin管理页面设置倍权和半权
 @Service //暴露服务 注意是dubbo下的注解，如果用xml文件配置就不用再暴露了
 @Component
 public class UserServiceImpl implements UserService {
