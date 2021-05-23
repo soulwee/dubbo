@@ -1,4 +1,4 @@
-尚硅谷dubbo学习笔记
+# 尚硅谷dubbo学习笔记
 
 需求：
 某个电商系统，订单服务(消费者)需要调用用户服务(生产者)获取某个用户的所有地址
@@ -10,7 +10,7 @@
 
 测试预期结果：订单服务web模块在A服务器，用户服务模块在B服务器，A可以远程调用B的功能。
 
-dubbo-admin是图形化的服务管理页面
+## dubbo-admin是图形化的服务管理页面
 
 用户服务(生产者)启动成功后可以看到zookeeper注册中心出现了一个应用服务提供者
 ![zookeeper](./img/zookeeper.png "zookeeper")
@@ -19,12 +19,12 @@ dubbo-admin是图形化的服务管理页面
 启动消费者订单服务，调用接口成功
 ![zookeeper1](./img/zk1.png "zookeeper22")
 
-dubbo-monitor-simple简单的监控中心
+## dubbo-monitor-simple简单的监控中心
 
 所有服务配置连接监控中心，进行监控统计，监控服务调用信息   
 ![监控中心](./img/monitor.png "监控中心")
 
-整合springboot
+## 整合springboot
 配置都可以转移到properties中了，依赖也全整合到com.alibaba.boot.dubbo-spring-boot-starter
 新增了两个注解用来替代之前的配置，@Service、@Reference
 @Service：用在provider中暴露服务。
@@ -37,11 +37,15 @@ dubbo-monitor-simple简单的监控中心
 消费者调用接口
 ![消费者](./img/controller.png "消费者")
 
-配置原则
+## 配置原则
 
 ![配置](./img/setting.png "优先级")
 
 JVM 启动 -D 参数优先(-Ddubbo.protocol.port=20880)，这样可以使用户在部署和启动时进行参数重写，比如在启动时需改变协议的端口。
 XML (和springboot整合过就是application.properties)次之，如果在 XML 中有配置，则 dubbo.properties 中的相应配置项无效。
 dubbo.properties 最后，相当于缺省值，只有 XML 没有配置时，dubbo.properties 的相应配置项才会生效，通常用于共享公共配置，比如应用名。
+
+## 启动时检查
+
+Dubbo缺省会在**启动时检查依赖的服务是否可用，不可用时会抛出异常**，阻止Spring初始化完成，以便上线时，能及早发现问题，**默认check="true“**。可以通过check="false”关闭检查，比如，测试时，有些服务不关心，或者出现了循环依赖，必须有一方先启动。另外，如果你的Spring容器是懒加载的，或者通过API编程延迟引用服务，请关闭check，否则服务临时不可用时，会抛出异常，拿到null引用，如果check= "false"”，总是会返回引用，当服务恢复时，能自动连上。
 
