@@ -8,7 +8,7 @@ import com.atguigu.gmall.bean.UserAddress;
 import com.atguigu.gmall.service.UserService;
 import org.springframework.stereotype.Component;
 
-@Service //暴露服务 注意是dubbo下的注解
+//@Service //暴露服务 注意是dubbo下的注解，如果用xml文件配置就不用再暴露了
 @Component
 public class UserServiceImpl implements UserService {
 

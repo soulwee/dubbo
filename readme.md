@@ -100,3 +100,10 @@ Dubbo缺省会在**启动时检查依赖的服务是否可用，不可用时会�
 
 远程服务后，客户端通常只剩下接口，而实现全在服务器端，但提供方有些时候想在客户端也执行部分逻辑，比如:做ThreadLocal缓存，提前验证参数，调用失败后伪造容错数据等等，此时就需要在API中带上Stub，客户端生成Proxy 实例，会把Proxy通过构造函数传给Stub1，然后把 Stub暴露给用户，Stub 可以决定要不要去调Proxy。
 ![本地存根](./img/stub.png "本地存根")
+
+## 整合springboot的第二种方法
+
+导入dubbo-starter，使用@ImportResource导入dubbo的配置文件即可@ImportResource(locations="classpath:provider.xml")。
+复制一份之前的xml，注释app.pro里的配置和service注解即可
+
+

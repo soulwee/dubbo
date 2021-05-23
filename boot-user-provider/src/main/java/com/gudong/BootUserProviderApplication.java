@@ -3,6 +3,8 @@ package com.gudong;
 import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ImportResource;
+
 /**
  * 1、导入依赖；
  * 		1）、导入dubbo-starter
@@ -16,7 +18,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 3）、使用注解API的方式：
  * 		将每一个组件手动创建到容器中,让dubbo来扫描其他的组件
  */
-@EnableDubbo //开启基于注解的dubbo功能
+
+//@EnableDubbo //开启基于注解的dubbo功能
+@ImportResource(locations="classpath:provider.xml")
 @SpringBootApplication
 public class BootUserProviderApplication {
 
