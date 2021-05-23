@@ -155,3 +155,67 @@ dubbo直连方式@Reference(url = "127.0.0.1:20882")
 缺省只对第一个参数 Hash，如果要修改，请配置 <dubbo:parameter key="hash.arguments" value="0,1" />
 缺省用 160 份虚拟节点，如果要修改，请配置 <dubbo:parameter key="hash.nodes" value="320" />
 ![权重设置](./img/setting2.png "权重设置")
+
+## 整合hystrix，服务熔断与降级处理
+
+### 1、服务降级
+
+**什么是服务降级？**
+
+**当服务器压力剧增的情况下，根据实际业务情况及流量，对一些服务和页面有策略的不处理或换种简单的方式处理，从而释放服务器资源以保证核心交易正常运作或高效运作。**
+
+可以通过服务降级功能临时屏蔽某个出错的非关键服务，并定义降级后的返回策略。
+其中：
+
+- mock=force:return+null 表示消费方对该服务的方法调用都**直接返回 null 值**，不发起远程调用。用来**屏蔽不重要服务不可用时对调用方的影响**。(某个不重要的消费者服务直接屏蔽，给提供者减压)
+- 还可以改为 mock=fail:return+null 表示消费方对该服务的方法**调用在失败后，再返回 null 值**，不抛异常。用来容忍不重要服务不稳定时对调用方的影响。
+
+### 2、集群容错
+
+在集群调用失败时，Dubbo 提供了多种容错方案，缺省为 failover 重试。
+
+**集群容错模式**
+
+**Failover Cluster**  失败自动切换，当出现失败，重试其它服务器。通常用于读操作，但重试会带来更长延迟。可通过  retries="2" 来设置重试次数(不含第一次)。重试次数配置如下：  
+
+```xml
+<dubbo:service  retries="2" />  或 
+<dubbo:reference  retries="2" />  或 
+<dubbo:reference>    
+    <dubbo:method name="findFoo"  retries="2" /> 
+</dubbo:reference>     
+```
+
+**Failfast  Cluster**  快速失败，只发起一次调用，失败立即报错。通常用于非幂等性的写操作，比如新增记录。    
+
+**Failsafe  Cluster**  失败安全，出现异常时，直接忽略。通常用于写入审计日志等操作。     
+
+**Failback  Cluster**  失败自动恢复，后台记录失败请求，定时重发。通常用于消息通知操作。    
+
+**Forking  Cluster**  并行调用多个服务器，只要一个成功即返回。通常用于实时性要求较高的读操作，但需要浪费更多服务资源。可通过  forks="2" 来设置最大并行数。     
+
+**Broadcast  Cluster**  广播调用所有提供者，逐个调用，任意一台报错则报错 [2]。通常用于通知所有提供者更新缓存或日志等本地资源信息。     
+
+**集群模式配置**  按照以下示例在服务提供方和消费方配置集群模式  
+
+```xml
+<dubbo:service  cluster="failsafe" />  或
+<dubbo:reference  cluster="failsafe" />  
+```
+
+### 3、整合hystrix
+
+Hystrix 旨在通过控制那些访问远程系统、服务和第三方库的节点，从而对延迟和故障提供更强大的容错能力。Hystrix具备拥有回退机制和断路器功能的线程和信号隔离，请求缓存和请求打包，以及监控和配置等功能
+
+#### 1、配置spring-cloud-starter-netflix-hystrix
+spring boot官方提供了对hystrix的集成，直接在pom.xml里加入依赖
+
+然后在Application类上增加@EnableHystrix来启用hystrix starter
+#### 2、配置Provider端
+
+在Dubbo的Provider上增加@HystrixCommand配置，这样子调用就会经过Hystrix代理。
+
+#### 3、配置Consumer端
+
+对于Consumer端，则可以增加一层method调用，并在method上配置@HystrixCommand(fallbackMethod = "hello")。
+当调用出错时，会走到fallbackMethod = "hello"的调用里。
