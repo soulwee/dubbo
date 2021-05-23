@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-	@Reference
+	@Reference(url = "127.0.0.1:20882")
 	UserService userService;
 
 	@Override
