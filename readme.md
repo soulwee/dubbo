@@ -106,4 +106,10 @@ Dubbo缺省会在**启动时检查依赖的服务是否可用，不可用时会�
 导入dubbo-starter，使用@ImportResource导入dubbo的配置文件即可@ImportResource(locations="classpath:provider.xml")。
 复制一份之前的xml，注释app.pro里的配置和service注解即可
 
+## 整合springboot的第三种方法
+
+要重新用注解暴露服务，添加配置类，将每一个组件手动创建到容器中,让dubbo来扫描其他的组件
+@EnableDubbo(scanBasePackages="com.atguigu.gmall")
+
+
 

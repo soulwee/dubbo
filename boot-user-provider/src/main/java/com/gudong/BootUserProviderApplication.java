@@ -20,7 +20,8 @@ import org.springframework.context.annotation.ImportResource;
  */
 
 //@EnableDubbo //开启基于注解的dubbo功能
-@ImportResource(locations="classpath:provider.xml")
+//@ImportResource(locations="classpath:provider.xml")
+@EnableDubbo(scanBasePackages="com.gudong")
 @SpringBootApplication
 public class BootUserProviderApplication {
 
