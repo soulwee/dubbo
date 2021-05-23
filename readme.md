@@ -36,3 +36,12 @@ dubbo-monitor-simple简单的监控中心
 ![监控中心](./img/admin2.png "监控中心")
 消费者调用接口
 ![消费者](./img/controller.png "消费者")
+
+配置原则
+
+![配置](./img/setting.png "优先级")
+
+JVM 启动 -D 参数优先(-Ddubbo.protocol.port=20880)，这样可以使用户在部署和启动时进行参数重写，比如在启动时需改变协议的端口。
+XML (和springboot整合过就是application.properties)次之，如果在 XML 中有配置，则 dubbo.properties 中的相应配置项无效。
+dubbo.properties 最后，相当于缺省值，只有 XML 没有配置时，dubbo.properties 的相应配置项才会生效，通常用于共享公共配置，比如应用名。
+
