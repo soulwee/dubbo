@@ -19,12 +19,14 @@
 
 package org.apache.dubbo.samples.generic.call.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import org.apache.dubbo.samples.generic.call.api.GenericType;
 import org.apache.dubbo.samples.generic.call.api.HelloService;
 import org.apache.dubbo.samples.generic.call.api.Person;
 
 import java.util.concurrent.CompletableFuture;
 
+@Service //暴露服务 注意是dubbo下的注解，如果用xml文件配置就不用再暴露了
 public class HelloServiceImpl implements HelloService {
 
     @Override

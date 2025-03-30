@@ -17,18 +17,17 @@
  *
  */
 
-package org.apache.dubbo.samples.generic.call;
+package org.apache.dubbo.samples.generic.call.api;
 
-import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.util.concurrent.CompletableFuture;
 
-@EnableDubbo(scanBasePackages="org.apache.dubbo.samples.generic.call")
-@SpringBootApplication
-public class GenericCallProvider {
+public interface HelloService {
 
-    public static void main(String[] args) {
-        SpringApplication.run(GenericCallProvider.class, args);
-    }
+    String sayHello(String name);
 
+    CompletableFuture<String> sayHelloAsync(String name);
+
+    CompletableFuture<Person> sayHelloAsyncComplex(String name);
+
+    CompletableFuture<GenericType<Person>> sayHelloAsyncGenericComplex(String name);
 }

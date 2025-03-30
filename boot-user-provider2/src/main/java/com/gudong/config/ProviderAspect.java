@@ -35,7 +35,6 @@ public class ProviderAspect {
         String methodName = joinPoint.getSignature().getName();
         System.out.println("[AOP] 方法调用前: " + methodName);
     }
-    private static GenericService genericService;
     @Resource
     private ApplicationConfig applicationConfig;
     // 环绕通知（示例：记录方法耗时）
@@ -72,10 +71,10 @@ public class ProviderAspect {
             referenceConfig.setGeneric("true");
 //            referenceConfig.setAsync(true);
             referenceConfig.setTimeout(7000);
-             genericService = ReferenceConfigCache.getCache().get(referenceConfig);
+            GenericService genericService = ReferenceConfigCache.getCache().get(referenceConfig);
 
 //            genericService = referenceConfig.get();
-            return  invokeSayHello();
+            return  invokeSayHello(genericService);
 
 
 
@@ -86,7 +85,10 @@ public class ProviderAspect {
             System.out.println("[AOP] 方法执行耗时: " + cost + "ms");
         }
     }
-    public static Object invokeSayHello() throws InterruptedException {
+
+    /*dubbo%3A%2F%2F192.168.2.4%3A20882%2Forg.apache.dubbo.samples.generic.call.api.HelloService%3Fanyhost%3Dtrue%26application%3Dgmall-user2%26dubbo%3D2.6.2%26generic%3Dfalse%26interface%3Dorg.apache.dubbo.samples.generic.call.api.HelloService%26methods%3DsayHello%2CsayHelloAsync%2CsayHelloAsyncGenericComplex%2CsayHelloAsyncComplex%26pid%3D27344%26side%3Dprovider%26timestamp%3D1743302418309*/
+
+    public static Object invokeSayHello( GenericService genericService ) throws InterruptedException {
         Object result = genericService.$invoke("sayHello", new String[]{"java.lang.String"}, new Object[]{"world"});
         System.err.println("invokeSayHello(return): " + result);
         UserAddress address2 = new UserAddress(2, result+"深圳市宝安区西部硅谷大厦B座3层（深圳分校）", "1", "王老师", "010-56253825", "N");
