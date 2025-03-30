@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://dubbo.apache.org/schema/dubbo
+       http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+    <!--当前应用的名字  -->
+    <dubbo:application name="gmall-user"></dubbo:application>
+    <!--指定注册中心的地址  -->
+    <!-- <dubbo:registry address="zookeeper://118.24.44.169:2181" />-->
+    <dubbo:registry protocol="zookeeper" address="127.0.0.1:2181"></dubbo:registry>
+    <!--使用dubbo协议，将服务暴露在20880端口  -->
+    <dubbo:protocol name="dubbo" port="20880" />
+    <!-- 指定需要暴露的服务 ref指向服务真正的实现对象-->
+    <dubbo:service interface="com.atguigu.gmall.service.UserService"
+                   ref="userServiceImpl" version="1.0">
+        <dubbo:method name="getUserAddressList"/>
+    </dubbo:service>
+
+    <!-- 配置当前提供者的统一规则 -->
+    <dubbo:provider timeout="6000"/>
+    <bean id="userServiceImpl" class="com.gudong.service.impl.UserServiceImpl"/>
+
+    <!--  监控中心协议，如果为protocol="registry"，表示从注册中心发现监控中心地址，否则address直连监控中心 -->
+    <dubbo:monitor  protocol="registry"></dubbo:monitor>
+    <!-- <dubbo:monitor address="127.0.0.1:7001"/>-->
+</beans>
