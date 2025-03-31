@@ -1,0 +1,1 @@
+springboot项目启动的时候获取org.apache.dubbo.samples.generic.call路径下的所有接口并生成实现类的字节码文件，并实现相应的方法，方法内容会被过滤器拦截，满足条件会调用com.inner服务，springboot启动时会注册并定阅com.inner服务并缓存到一个类里，过滤器调的实际是从缓存取的服务。且字节码实现类暴露服务给zookeeper
